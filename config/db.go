@@ -23,7 +23,13 @@ func ConnectDB() *gorm.DB {
 		log.Fatal("Error while loading .env file")
 	}
 
-	dataSourceName := os.Getenv("DATABASE_DSN")
+	USERNAME := os.Getenv("DB_USER")
+	PASSWORD := os.Getenv("DB_PASSWORD")
+	HOSTNAME := os.Getenv("DB_HOSTNAME")
+	PORT := os.Getenv("DB_PORT")
+	DATABASE := os.Getenv("DB_NAME")
+	
+	dataSourceName := USERNAME + ":" + PASSWORD + "@tcp(" + HOSTNAME + ":" + PORT + ")/" + DATABASE + "?charset=utf8&parseTime=true&loc=Local"
 
 	fmt.Println("dsn: " + dataSourceName)
 	db, err := gorm.Open(mysql.Open(dataSourceName), &gorm.Config{})
